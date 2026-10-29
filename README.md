@@ -40,4 +40,4 @@ A nonexistent ID returns `404` with a JSON error message.
 
 ## Status
 
-Maintained by: Zhuldyz Zhumabay, group IT2-2308 (resolved merge conflict)feature/zhumabay-zhuldyz-documentation feature/zhumabay-zhuldyz-documentation
+Maintained by: Zhuldyz Zhumabay, group IT2-2308 (resolved merge conflict)
