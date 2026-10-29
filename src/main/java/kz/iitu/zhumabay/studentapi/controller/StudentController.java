@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,9 +36,12 @@ public class StudentController {
         return repository.save(student);
     }
 
-    // READ all
+    // READ all (optional filter: /api/students?surname=Zhumabay)
     @GetMapping
-    public List<Student> getAll() {
+    public List<Student> getAll(@RequestParam(required = false) String surname) {
+        if (surname != null && !surname.isBlank()) {
+            return repository.findBySurnameIgnoreCase(surname);
+        }
         return repository.findAll();
     }
 
