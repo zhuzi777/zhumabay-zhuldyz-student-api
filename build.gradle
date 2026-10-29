@@ -6,7 +6,7 @@ plugins {
 
 group = 'kz.iitu.zhumabay'
 // Application version — change it (e.g. to 1.1.0) to demonstrate an image rebuild
-version = '1.0.0'
+version = '1.1.0'
 description = 'Student CRUD API by Zhuldyz Zhumabay (IT2-2308)'
 
 java {
