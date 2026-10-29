@@ -34,6 +34,10 @@ The application listens on port 8080 inside the container and is published on ho
 
 A nonexistent ID returns `404` with a JSON error message.
 
+## Change log
+
+- Zhuldyz Zhumabay - feature/zhumabay-zhuldyz-crud: GET /api/students?surname=Zhumabay returns only students with that surname (case-insensitive). Covered by filterStudentsBySurname test.
+
 ## Status
 
 Maintained by: Zhuldyz Zhumabay

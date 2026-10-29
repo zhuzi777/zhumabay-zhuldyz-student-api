@@ -99,4 +99,15 @@ class StudentControllerTest {
         mockMvc.perform(post("/api/students").contentType(MediaType.APPLICATION_JSON).content("{\"name\":\"\"}"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void filterStudentsBySurname() throws Exception {
+        repository.save(new Student("Zhuldyz", "Zhumabay", null, "IT2-2308"));
+        repository.save(new Student("Asan", "Abai", null, "IT2-2308"));
+
+        mockMvc.perform(get("/api/students").param("surname", "zhumabay"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].surname").value("Zhumabay"));
+    }
 }
