@@ -1,0 +1,48 @@
+# Personal Compose project name -> containers, network and volume get this prefix
+name: zhumabay-zhuldyz-student-api
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: zhumabay-zhuldyz-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-studentdb}
+      POSTGRES_USER: ${POSTGRES_USER:-zhumabay}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - zhumabay_zhuldyz_pgdata:/var/lib/postgresql/data
+    networks:
+      - zhumabay-zhuldyz-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  app:
+    build: .
+    image: zhumabay-zhuldyz-student-api:${IMAGE_TAG:-v1.0-zhumabay-zhuldyz}
+    container_name: zhumabay-zhuldyz-app
+    environment:
+      DB_HOST: postgres            # Docker service name, NOT localhost
+      DB_PORT: 5432
+      DB_NAME: ${POSTGRES_DB:-studentdb}
+      DB_USER: ${POSTGRES_USER:-zhumabay}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      STUDENT_NAME: Zhuldyz Zhumabay
+    ports:
+      - "${APP_HOST_PORT:-8081}:8080"   # host 8081 because Jenkins already uses 8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - zhumabay-zhuldyz-net
+    restart: unless-stopped
+
+volumes:
+  zhumabay_zhuldyz_pgdata:
+
+networks:
+  zhumabay-zhuldyz-net:
+    driver: bridge
